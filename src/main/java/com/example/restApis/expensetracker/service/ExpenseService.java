@@ -25,6 +25,20 @@ public class ExpenseService {
         return expenseRepository.insert(expense).getId();
     }
 
+    public void updateExpense(ExpenseDto expenseDto) {
+        Expense savedExpense =
+                expenseRepository.findById(expenseDto.getId())
+                        .orElseThrow(() -> new
+                                RuntimeException(String.format("Cannot Find Expense by ID %s",
+                                expenseDto.getId())));
+        savedExpense.setExpenseName(expenseDto.getExpenseName());
+
+        savedExpense.setExpenseCategory(expenseDto.getExpenseCategory());
+        savedExpense.setExpenseAmount(expenseDto.getExpenseAmount());
+
+        expenseRepository.save(savedExpense);
+    }
+
     public ExpenseDto getExpense(String name) {
         Expense expense = expenseRepository.findByName(name)
                 .orElseThrow(() -> new
@@ -40,6 +54,9 @@ public class ExpenseService {
                 .map(this::mapToDto).collect(Collectors.toList());
     }
 
+    public void deleteExpense(String id) {
+        expenseRepository.deleteById(id);
+    }
 
     /*
 

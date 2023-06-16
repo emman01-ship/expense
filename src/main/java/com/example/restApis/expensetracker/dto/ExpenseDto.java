@@ -26,4 +26,19 @@ public class ExpenseDto {
     private ExpenseCategory expenseCategory;
     private BigDecimal expenseAmount;
 
+    public String getId() {
+        return id;
+    }
+
+    public String getExpenseName() {
+        return expenseName;
+    }
+
+    public ExpenseCategory getExpenseCategory() {
+        return expenseCategory;
+    }
+
+    public BigDecimal getExpenseAmount() {
+        return expenseAmount;
+    }
 }

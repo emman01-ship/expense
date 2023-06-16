@@ -23,5 +23,32 @@ public class Expense {
     private ExpenseCategory expenseCategory;
     @Field("amount")
     private BigDecimal expenseAmount;
+    public String getId() {
+        return id;
+    }
+
+    public void setExpenseName(String expenseName) {
+        this.expenseName = expenseName;
+    }
+
+    public void setExpenseCategory(ExpenseCategory expenseCategory) {
+        this.expenseCategory = expenseCategory;
+    }
+
+    public void setExpenseAmount(BigDecimal expenseAmount) {
+        this.expenseAmount = expenseAmount;
+    }
+
+    public String getExpenseName() {
+        return expenseName;
+    }
+
+    public ExpenseCategory getExpenseCategory() {
+        return expenseCategory;
+    }
+
+    public BigDecimal getExpenseAmount() {
+        return expenseAmount;
+    }
 
 }

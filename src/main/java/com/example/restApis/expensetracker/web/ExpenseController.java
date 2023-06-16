@@ -1,6 +1,7 @@
 package com.example.restApis.expensetracker.web;
 
 import com.example.restApis.expensetracker.dto.ExpenseDto;
+import com.example.restApis.expensetracker.model.Expense;
 import com.example.restApis.expensetracker.service.ExpenseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,12 @@ public class ExpenseController {
                 .build();
     }
 
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public void updateExpense(@RequestBody ExpenseDto expense) {
+        expenseService.updateExpense(expense);
+    }
+
     /*
         We are receiving the expenseName as a URL PathVariable, and we are
         returning the ExpenseDto back to the client.
@@ -54,6 +61,12 @@ public class ExpenseController {
     @ResponseStatus(HttpStatus.OK)
     public List<ExpenseDto> getAllExpenses() {
         return expenseService.getAllExpenses();
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteExpense(@PathVariable String id) {
+        expenseService.deleteExpense(id);
     }
 
 }
