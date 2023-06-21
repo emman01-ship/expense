@@ -11,71 +11,25 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
-@RequiredArgsConstructor
-@Transactional
-public class ExpenseService {
-    private final ExpenseRepository expenseRepository;
+
+
+public interface ExpenseService {
 
     /*
         map the ExpenseDto object to an Expense object.
      */
-    public String addExpense(ExpenseDto expenseDto) {
-        Expense expense = mapFromDto(expenseDto);
-        return expenseRepository.insert(expense).getId();
-    }
+    public String addExpense(ExpenseDto expenseDto);
 
-    public void updateExpense(ExpenseDto expenseDto) {
-        Expense savedExpense =
-                expenseRepository.findById(expenseDto.getId())
-                        .orElseThrow(() -> new
-                                RuntimeException(String.format("Cannot Find Expense by ID %s",
-                                expenseDto.getId())));
-        savedExpense.setExpenseName(expenseDto.getExpenseName());
+    public void updateExpense(ExpenseDto expenseDto);
 
-        savedExpense.setExpenseCategory(expenseDto.getExpenseCategory());
-        savedExpense.setExpenseAmount(expenseDto.getExpenseAmount());
+    public ExpenseDto getExpense(String name);
 
-        expenseRepository.save(savedExpense);
-    }
+    public List<ExpenseDto> getAllExpenses();
 
-    public ExpenseDto getExpense(String name) {
-        Expense expense = expenseRepository.findByName(name)
-                .orElseThrow(() -> new
-                        ExpenseNotFoundException(String
-                        .format("Cannot Find Expense by Name - %s", name)));
-        return mapToDto(expense);
-    }
-
-    public List<ExpenseDto> getAllExpenses() {
-        return expenseRepository.findAll()
-                .stream()
-
-                .map(this::mapToDto).collect(Collectors.toList());
-    }
-
-    public void deleteExpense(String id) {
-        expenseRepository.deleteById(id);
-    }
+    public void deleteExpense(String id);
 
     /*
 
      */
-    private Expense mapFromDto(ExpenseDto expense) {
-        return Expense.builder()
-                .expenseName(expense.getExpenseName())
-                .expenseCategory(expense.getExpenseCategory())
-                .expenseAmount(expense.getExpenseAmount())
-                .build();
-    }
-
-    private ExpenseDto mapToDto(Expense expense) {
-        return ExpenseDto.builder()
-                .id(expense.getId())
-                .expenseName(expense.getExpenseName())
-                .expenseCategory(expense.getExpenseCategory())
-                .expenseAmount(expense.getExpenseAmount())
-                .build();
-    }
 
 }

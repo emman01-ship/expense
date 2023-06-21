@@ -1,0 +1,80 @@
+package com.example.restApis.expensetracker.service;
+
+import com.example.restApis.expensetracker.dto.ExpenseDto;
+import com.example.restApis.expensetracker.exception.ExpenseNotFoundException;
+import com.example.restApis.expensetracker.model.Expense;
+import com.example.restApis.expensetracker.repository.ExpenseRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Transactional
+@RequiredArgsConstructor
+@Service
+public class ExpenseServiceImpl implements ExpenseService{
+    private final ExpenseRepository expenseRepository;
+
+    /*
+        map the ExpenseDto object to an Expense object.
+     */
+    public String addExpense(ExpenseDto expenseDto) {
+        Expense expense = mapFromDto(expenseDto);
+        return expenseRepository.insert(expense).getId();
+    }
+
+    public void updateExpense(ExpenseDto expenseDto) {
+        Expense savedExpense =
+                expenseRepository.findById(expenseDto.getId())
+                        .orElseThrow(() -> new
+                                RuntimeException(String.format("Cannot Find Expense by ID %s",
+                                expenseDto.getId())));
+        savedExpense.setExpenseName(expenseDto.getExpenseName());
+
+        savedExpense.setExpenseCategory(expenseDto.getExpenseCategory());
+        savedExpense.setExpenseAmount(expenseDto.getExpenseAmount());
+
+        expenseRepository.save(savedExpense);
+    }
+
+    public ExpenseDto getExpense(String name) {
+        Expense expense = expenseRepository.findByName(name)
+                .orElseThrow(() -> new
+                        ExpenseNotFoundException(String
+                        .format("Cannot Find Expense by Name - %s", name)));
+        return mapToDto(expense);
+    }
+
+    public List<ExpenseDto> getAllExpenses() {
+        return expenseRepository.findAll()
+                .stream()
+
+                .map(this::mapToDto).collect(Collectors.toList());
+    }
+
+    public void deleteExpense(String id) {
+        expenseRepository.deleteById(id);
+    }
+
+    /*
+
+     */
+    private Expense mapFromDto(ExpenseDto expense) {
+        return Expense.builder()
+                .expenseName(expense.getExpenseName())
+                .expenseCategory(expense.getExpenseCategory())
+                .expenseAmount(expense.getExpenseAmount())
+                .build();
+    }
+
+    private ExpenseDto mapToDto(Expense expense) {
+        return ExpenseDto.builder()
+                .id(expense.getId())
+                .expenseName(expense.getExpenseName())
+                .expenseCategory(expense.getExpenseCategory())
+                .expenseAmount(expense.getExpenseAmount())
+                .build();
+    }
+}
