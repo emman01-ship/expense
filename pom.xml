@@ -71,6 +71,8 @@
 			<version>1.18.28</version>
 			<scope>provided</scope>
 		</dependency>
+
+
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -96,6 +98,16 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version>
+				<configuration>
+					<!-- 1.8, 1.10, 11, 12, 13-->
+					<source>17</source>
+					<target>17</target>
 				</configuration>
 			</plugin>
 		</plugins>

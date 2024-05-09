@@ -12,16 +12,13 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document("expense")
+@Document("tab")
 public class Expense {
     @Id
     private String id;
-    @Field("name")
     @Indexed(unique = true)
     private String expenseName;
-    @Field("category")
     private ExpenseCategory expenseCategory;
-    @Field("amount")
     private BigDecimal expenseAmount;
     public String getId() {
         return id;

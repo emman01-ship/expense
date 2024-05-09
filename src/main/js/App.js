@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
  
-class App extends Component {
-    
+import React from 'react'
+
+export default function App(){
+  return (
+    <div>
+      
+    </div>
+  )
 }
