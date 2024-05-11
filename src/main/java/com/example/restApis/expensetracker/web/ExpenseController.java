@@ -7,12 +7,16 @@ import com.example.restApis.expensetracker.service.ExpenseService;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -23,10 +27,12 @@ import java.util.Objects;
     Accept the incoming request
  */
 
+@ComponentScan("com.example.restApis.service")
 @RestController
 @RequiredArgsConstructor
-public class ExpenseController {
+public class ExpenseController implements ErrorController {
     private final ExpenseService expenseService;
+
     /*
         We are receiving the ExpenseDto as a @RequestBody and we are passing on
         this object to ExpenseService which returns the expenseId of the created
@@ -69,6 +75,9 @@ public class ExpenseController {
         return expenseService.getAllExpenses();
     }
 
+    /*
+        sometimes null inputs are accidentally entered into the db
+     */
     @DeleteMapping("/deleteAllNull")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteNullExpenses(){
@@ -79,6 +88,10 @@ public class ExpenseController {
 
     }
 
+    /*
+        Instead of just deleting a single expense, delete any in the
+        same category
+     */
     @DeleteMapping("/deleteByName")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteExpensesByName(@Param("expenseName") @Nullable String expenseName){
@@ -96,12 +109,15 @@ public class ExpenseController {
     }
 
 
-    @GetMapping("/error")
-    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping("/error")
+    @ResponseBody
     String error(HttpServletRequest request) {
         return "<h1>Error occurred</h1>";
     }
 
 
+    public String getErrorPath() {
+        return "/error";
+    }
 
 }
