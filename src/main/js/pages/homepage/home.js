@@ -1,10 +1,15 @@
-import React from 'react'
+import React from 'react';
+import Table from '../../components/table';
+import './home.css';
+import Model from '../../components/model';
 
 const Home = () => {
   return (
-    <div>
+    <div className='all'>
         <h1>Welcome to your Expense page</h1>
-        <p>Manage your finainces</p>
+        <h2>Manage your finances</h2>
+        <Table/>
+        <Model/>
     </div>
   )
 }
