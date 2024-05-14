@@ -1,9 +1,15 @@
 import React from 'react';
 import './model.css';
 
-const Model = () => {
+const Model = ({closeModel}) => {
   return (
-    <div className='model-container'>
+    <div className='model-container' onClick={
+      (e) => {
+        if(e.target.className === 'model-container'){
+          closeModel();
+        }
+      }
+    }>
         <div className='model'>
             <form>
                 <div className='form-group'>
@@ -15,7 +21,7 @@ const Model = () => {
                 <select name="category">
                     <option>ENTERTAINMENT</option>
                     <option>GROCERIES</option>
-                    <option>RESTERAUNT</option>
+                    <option>RESTAURANT</option>
                     <option>UTILITIES</option>
                     <option>MISC</option>
                 </select>
