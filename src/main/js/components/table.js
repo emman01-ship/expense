@@ -4,6 +4,7 @@ import './table.css';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
+import {deleteExpense} from '../controller/mongo';
 
 
 export default function Table(){
@@ -53,7 +54,7 @@ export default function Table(){
                                     </td>
                                     <td>
                                         <span className='action'>
-                                            <BsFillTrash3Fill className='delete-btn'/>
+                                            <BsFillTrash3Fill className='delete-btn' onClick={() => {deleteExpense(row.id)}}/>
                                             <BsFillPencilFill />
                                         </span>
                                     </td>
