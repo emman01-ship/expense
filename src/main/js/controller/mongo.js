@@ -13,13 +13,14 @@ console.error(error);
 
 }
 
-export async function addExpense(name, category, amount){
+export async function addExpense(expense){
 
     await axios.post(`http://localhost:8080/add`, 
     {
-        expenseName: name,
-        expenseCategory: category,
-        expenseAmount: amount
+        expenseName: expense.expenseName,
+        expenseCategory: expense.expenseCategory,
+        expenseAmount: expense.expenseAmount,
+        id: expense.id
 
     }
     )
