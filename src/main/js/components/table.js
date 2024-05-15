@@ -61,7 +61,7 @@ export default function Table(){
                                 </tr>
                         }
                     )
-                    ) : (`No current expenses... :)`)
+                    ) : []
                 }
             </tbody>
         </table>
