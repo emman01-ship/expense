@@ -2,24 +2,29 @@ import React from 'react';
 import './model.css';
 import { addExpense } from '../controller/mongo';
 import { useState } from 'react';
+import { v1 as uuidv1 } from 'uuid';
 
-const Model = ({closeModel}) => {
+const Model = ({closeModel, add}) => {
 
   const [expenseValues, setExpense] = useState({
     expenseName: "",
     expenseCategory: "ENTERTAINMENT",
-    amount: ""
+    expenseAmount: "",
+    id: uuidv1()
   });
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    addExpense(
-      expenseValues.expenseName, 
-      expenseValues.expenseCategory,
-      expenseValues.amount
-    );
-    closeModel();
+    // const expense = {
+    //   expenseName: expenseValues.expenseName, 
+    //   expenseCategory: expenseValues.expenseCategory,
+    //   expenseAmount: expenseValues.expenseAmount
+    // }
     console.log(expenseValues);
+    addExpense(expenseValues);
+    add(expenseValues);
+    closeModel();
+    
   }
 
   const handleChange = (evt) => {
@@ -71,8 +76,8 @@ const Model = ({closeModel}) => {
                 <div className='form-group'>
                 <label>Budget</label>
                 <input 
-                value={expenseValues.amount}
-                name="amount"
+                value={expenseValues.expenseAmount}
+                name="expenseAmount"
                 placeholder="amount"
                 onChange={handleChange}
                 >
