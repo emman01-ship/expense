@@ -33,3 +33,26 @@ export async function addExpense(expense){
 
 
 }
+
+export async function updateExpense(expense){
+  console.log(expense);
+  await axios.put(`http://localhost:8080/update`,
+    {
+      expenseName: expense.expenseName,
+      expenseCategory: expense.expenseCategory,
+      expenseAmount: expense.expenseAmount,
+      id: expense.id
+    }
+  )
+  .then(
+    function (response) {
+      console.log(response);
+    }
+  )
+  .catch(
+    function (error) {
+      console.log(error);
+    }
+  )
+
+}
