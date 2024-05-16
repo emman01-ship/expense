@@ -1,28 +1,41 @@
 import React from 'react';
 import './model.css';
 import { addExpense } from '../controller/mongo';
+import { updateExpense } from '../controller/mongo';
 import { useState } from 'react';
 import { v1 as uuidv1 } from 'uuid';
 
-const Model = ({closeModel, add}) => {
+const Model = ({closeModel, add, defaultValue}) => {
 
-  const [expenseValues, setExpense] = useState({
+  /*
+    use either edited expense or blank one 
+    default value can be null
+  */
+  const [expenseValues, setExpense] = useState( defaultValue ||
+    {
     expenseName: "",
     expenseCategory: "ENTERTAINMENT",
     expenseAmount: "",
     id: uuidv1()
   });
 
+  /* 
+    only add a new expnese in back end if we we dont not have
+    edited expense 
+    if edited expense we call update expense
+  */
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    // const expense = {
-    //   expenseName: expenseValues.expenseName, 
-    //   expenseCategory: expenseValues.expenseCategory,
-    //   expenseAmount: expenseValues.expenseAmount
-    // }
+    
     console.log(expenseValues);
-    addExpense(expenseValues);
+    if (defaultValue !== null ) {
+      updateExpense(expenseValues);
+    }
+
+    if (defaultValue === null) addExpense(expenseValues);
+
     add(expenseValues);
+    
     closeModel();
     
   }
