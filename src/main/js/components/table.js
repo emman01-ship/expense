@@ -3,7 +3,7 @@ import { BsFillPencilFill, BsFillTrash3Fill } from 'react-icons/bs';
 import './table.css';
 import {deleteExpense} from '../controller/mongo';
 
-export default function Table({budget}){
+export default function Table({budget, delExpense}){
 
   return (
     <>
@@ -21,8 +21,8 @@ export default function Table({budget}){
                 <tbody>
                 {
                     (budget || []).length > 0 ? (
-                        budget.map((row) => {
-                            return <tr key={row.id}>
+                        budget.map((row, idx) => {
+                            return <tr key={idx}>
                                     <td>{row.expenseName}</td>
                                     <td>{row.expenseCategory}</td>
                                     <td>{row.expenseAmount}</td>
@@ -31,7 +31,9 @@ export default function Table({budget}){
                                     </td>
                                     <td>
                                         <span className='action'>
-                                            <BsFillTrash3Fill className='delete-btn' onClick={() => {deleteExpense(row.id)}}/>
+                                            <BsFillTrash3Fill className='delete-btn' onClick={() => {delExpense(idx);
+                                                deleteExpense(row.id);
+                                            }}/>
                                             <BsFillPencilFill />
                                         </span>
                                     </td>

@@ -26,6 +26,10 @@ const Home = () => {
       setbudget([...budget, ex]);
     }
 
+    const deleteExpense = (id) => {
+      setbudget(budget.filter((_, idx) => idx !== id));
+    }
+
 
 
     /*Get initial expenses on first render*/
@@ -39,7 +43,7 @@ const Home = () => {
     <div className='all'>
         <h1>Welcome to your Expense page</h1>
         <h2>Manage your finances</h2>
-        {(budget || []).length > 0 ? (<Table budget={budget}/>) : ([])}
+        {(budget || []).length > 0 ? (<Table budget={budget} delExpense={deleteExpense}/>) : ([])}
         <button className='btn'onClick={() => setModel(true)}>ADD</button>        
         {/* <button className='btn'onClick={() => {setModel(true)}}>ADD</button> */}
         {model && <Model closeModel={() => {setModel(false)}} add={setExpense}/>}
